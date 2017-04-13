@@ -14,8 +14,11 @@ MongoClient.connect(url, function (err, db) {
        console.log('Connection established test');
        db.dropDatabase(); //dump old database
        var Students = db.collection("Students"); //create table
-       Students.insert([{"name":"Elias"}]); //input data to table
-       
+       Students.insert([{"name":"Salvatore", "Hobby1": "snowboarding", "Hobby2": "reading", "Hobby3": "hot-tubbing"}]); //input data to table
+       Students.insert([{"name":"Vincent", "Hobby1": "surfing", "Hobby2": "backpacking", "Hobby3": "fishing"}]);
+       Students.insert([{"name":"Jenny", "Hobby1": "baking", "Hobby2": "swimming", "Hobby3": "hiking"}]);
+       Students.insert([{"name":"Davis", "Hobby1": "hiking", "Hobby2": "photography", "Hobby3": "cooking"}]);
+       Students.insert([{"name":"Hiram", "Hobby1": "eating", "Hobby2": "hiking", "Hobby3": "sleeping"}]);
        var StudentsCursor = Students.find(); //search for data in table
        var studentsResult = 'The students of this cohort include:\n'; //string to write into the file
        StudentsCursor.each(function(err,doc) {
