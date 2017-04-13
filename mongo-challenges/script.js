@@ -19,6 +19,8 @@ MongoClient.connect(url, function (err, db) {
        Students.insert([{"name":"Jenny", "Hobby1": "baking", "Hobby2": "swimming", "Hobby3": "hiking"}]);
        Students.insert([{"name":"Davis", "Hobby1": "hiking", "Hobby2": "photography", "Hobby3": "cooking"}]);
        Students.insert([{"name":"Hiram", "Hobby1": "eating", "Hobby2": "hiking", "Hobby3": "sleeping"}]);
+       Students.insert([{"name":"Daniel", "Hobby1": "surfing", "Hobby2": "math", "Hobby3": "scrabble"}]);
+       Students.insert([{"name":"Gerardo", "Hobby1": "coding", "Hobby2": "programming", "Hobby3": "web development"}]);
        var StudentsCursor = Students.find(); //search for data in table
        var studentsResult = 'The students of this cohort include:\n'; //string to write into the file
        StudentsCursor.each(function(err,doc) {
@@ -26,7 +28,10 @@ MongoClient.connect(url, function (err, db) {
            else {
                if(doc) {
                    console.log(doc.name);
-                   studentsResult += doc.name + "\n";
+                   studentsResult += doc.name + "\n\t" + 
+                   "Hobby1: " + doc.Hobby1 + "\n\t" + 
+                   "Hobby2: " + doc.Hobby2 + "\n\t" + 
+                   "Hobby3: " + doc.Hobby3 + "\n";
                }
                else {
                 console.log( studentsResult );
