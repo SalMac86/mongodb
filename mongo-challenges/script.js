@@ -21,6 +21,7 @@ MongoClient.connect(url, function (err, db) {
        Students.insert([{"name":"Hiram", "Hobby1": "eating", "Hobby2": "hiking", "Hobby3": "sleeping"}]);
        Students.insert([{"name":"Daniel", "Hobby1": "surfing", "Hobby2": "math", "Hobby3": "scrabble"}]);
        Students.insert([{"name":"Gerardo", "Hobby1": "coding", "Hobby2": "programming", "Hobby3": "web development"}]);
+       Students.insert([{"name":"Trina", "Hobby1": "yoga", "Hobby2":"rock climbing", "Hobby3":"tetris"}]);
        var StudentsCursor = Students.find(); //search for data in table
        var studentsResult = 'The students of this cohort include:\n'; //string to write into the file
        StudentsCursor.each(function(err,doc) {
