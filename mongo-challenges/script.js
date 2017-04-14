@@ -30,9 +30,9 @@ MongoClient.connect(url, function (err, db) {
                if(doc) {
                    console.log(doc.name);
                    studentsResult += doc.name + "\n\t" + 
-                   "Hobby1: " + doc.hobbies.Hobby1 + "\n\t" + 
-                   "Hobby2: " + doc.hobbies.Hobby2 + "\n\t" + 
-                   "Hobby3: " + doc.hobbies.Hobby3 + "\n";
+                   "Hobby1: " + doc.hobbies[0] + "\n\t" + 
+                   "Hobby2: " + doc.hobbies[1] + "\n\t" + 
+                   "Hobby3: " + doc.hobbies[2] + "\n";
                }
                else {
                 console.log( studentsResult );
@@ -45,7 +45,7 @@ MongoClient.connect(url, function (err, db) {
            if(err) console.log(err);
            else {
                if(doc) {
-                   console.log(groupsResult+doc.hobbies.Hobby1+' include:\n');
+                   console.log(groupsResult+doc.hobbies+' include:\n');
                }
                else {
                 console.log( 'end of Cursor' );
