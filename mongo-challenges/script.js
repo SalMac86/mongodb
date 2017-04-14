@@ -14,14 +14,14 @@ MongoClient.connect(url, function (err, db) {
        console.log('Connection established test');
        db.dropDatabase(); //dump old database
        var Students = db.collection("Students"); //create table
-       Students.insert([{"name":"Salvatore", "Hobby1": "snowboarding", "Hobby2": "reading", "Hobby3": "hot-tubbing"}]); //input data to table
-       Students.insert([{"name":"Vincent", "Hobby1": "surfing", "Hobby2": "backpacking", "Hobby3": "fishing"}]);
-       Students.insert([{"name":"Jenny", "Hobby1": "baking", "Hobby2": "swimming", "Hobby3": "hiking"}]);
-       Students.insert([{"name":"Davis", "Hobby1": "hiking", "Hobby2": "photography", "Hobby3": "cooking"}]);
-       Students.insert([{"name":"Hiram", "Hobby1": "eating", "Hobby2": "hiking", "Hobby3": "sleeping"}]);
-       Students.insert([{"name":"Daniel", "Hobby1": "surfing", "Hobby2": "math", "Hobby3": "scrabble"}]);
-       Students.insert([{"name":"Gerardo", "Hobby1": "coding", "Hobby2": "programming", "Hobby3": "web development"}]);
-       Students.insert([{"name":"Trina", "Hobby1": "yoga", "Hobby2":"rock climbing", "Hobby3":"tetris"}]);
+       Students.insert([{"name":"Salvatore", "hobbies":["snowboarding", "reading", "hot-tubbing"]}]); //input data to table
+       Students.insert([{"name":"Vincent", "hobbies":["surfing", "backpacking", "fishing"]}]);
+       Students.insert([{"name":"Jenny", "hobbies":["baking", "swimming", "hiking"]}]);
+       Students.insert([{"name":"Davis", "hobbies":["hiking", "photography", "cooking"]}]);
+       Students.insert([{"name":"Hiram", "hobbies":["eating", "hiking", "sleeping"]}]);
+       Students.insert([{"name":"Daniel", "hobbies":["surfing", "math", "scrabble"]}]);
+       Students.insert([{"name":"Gerardo", "hobbies":["coding", "programming", "web development"]}]);
+       Students.insert([{"name":"Trina", "hobbies":["yoga", "rock climbing", "tetris"]}]);
        var StudentsCursor = Students.find(); //search for data in table
        var studentsResult = 'The students of this cohort include:\n'; //string to write into the file
        StudentsCursor.each(function(err,doc) {
@@ -30,12 +30,25 @@ MongoClient.connect(url, function (err, db) {
                if(doc) {
                    console.log(doc.name);
                    studentsResult += doc.name + "\n\t" + 
-                   "Hobby1: " + doc.Hobby1 + "\n\t" + 
-                   "Hobby2: " + doc.Hobby2 + "\n\t" + 
-                   "Hobby3: " + doc.Hobby3 + "\n";
+                   "Hobby1: " + doc.hobbies.Hobby1 + "\n\t" + 
+                   "Hobby2: " + doc.hobbies.Hobby2 + "\n\t" + 
+                   "Hobby3: " + doc.hobbies.Hobby3 + "\n";
                }
                else {
                 console.log( studentsResult );
+               }
+           }
+       });
+       var GroupsCursor = Students.aggregate();
+       var groupsResult = 'Students who share a hobby of '; //string to write into the file - +hobby+' include:\n';
+       GroupsCursor.each(function(err,doc) {
+           if(err) console.log(err);
+           else {
+               if(doc) {
+                   console.log(groupsResult+doc.hobbies.Hobby1+' include:\n');
+               }
+               else {
+                console.log( 'end of Cursor' );
                }
            }
        });
