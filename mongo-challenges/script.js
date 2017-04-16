@@ -39,13 +39,16 @@ MongoClient.connect(url, function (err, db) {
                }
            }
        });
-       var GroupsCursor = Students.aggregate();
+       var GroupsCursor = Students.aggregate([{$unwind:"$hobbies"},{$group:{"_id":"$hobbies", "students":{"$addToSet":"$name"}, "count":{$sum:1}}},{$match:{"count":{$gt:1}}}]);
        var groupsResult = 'Students who share a hobby of '; //string to write into the file - +hobby+' include:\n';
        GroupsCursor.each(function(err,doc) {
            if(err) console.log(err);
            else {
                if(doc) {
-                   console.log(groupsResult+doc.hobbies+' include:\n');
+                   console.log(groupsResult+doc._id+' include:');
+                   for(var i = 0;i < doc.count;i++){
+                    console.log('\t'+doc.students[i]);
+                   }
                }
                else {
                 console.log( 'end of Cursor' );
