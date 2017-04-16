@@ -39,14 +39,28 @@ MongoClient.connect(url, function (err, db) {
                }
            }
        });
-       var GroupsCursor = Students.aggregate([{$unwind:"$hobbies"},{$group:{"_id":"$hobbies", "students":{"$addToSet":"$name"}, "count":{$sum:1}}},{$match:{"count":{$gt:1}}}]);
+       //here's where the magic happens for goal 3
+       var GroupsCursor = Students.aggregate(
+        [
+         //unwind makes it so that each hobby from the hobbies array has it's own document
+         {$unwind:"$hobbies"},
+         //we then group the hobbies and add the students in as a set, with a count
+         //this is most of the magic - 
+         {$group:{"_id":"$hobbies", "students":{"$addToSet":"$name"}, "count":{$sum:1}}},
+         //finally, we only want to report the hobbies that have more than one student
+         {$match:{"count":{$gt:1}}}
+        ]
+       );
        var groupsResult = 'Students who share a hobby of '; //string to write into the file - +hobby+' include:\n';
        GroupsCursor.each(function(err,doc) {
            if(err) console.log(err);
            else {
                if(doc) {
+                   //the doc._id will be the name of each hobby
                    console.log(groupsResult+doc._id+' include:');
+                   //we can iterate through the students in each hobby with our count field for an index ref
                    for(var i = 0;i < doc.count;i++){
+                    
                     console.log('\t'+doc.students[i]);
                    }
                }
